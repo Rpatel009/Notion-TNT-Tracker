@@ -1,0 +1,19 @@
+name: Notion Tracking Sync
+on:
+  schedule:
+    - cron: "0 */1 * * *"   # runs every 6 hours
+  workflow_dispatch:        # lets you trigger manually
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm install
+      - run: node index.js
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
+          AFTERSHIP_KEY: ${{ secrets.AFTERSHIP_KEY }}
